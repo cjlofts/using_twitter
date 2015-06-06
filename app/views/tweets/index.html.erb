@@ -1,0 +1,46 @@
+<h4>Tweets</h4>
+
+<%= form_tag do %>
+  <%= number_field_tag :search, value = 5,{ id: "tweet-number", min: 1 } %>
+  <%= text_field_tag :search, nil, id: "search-field" %>
+  <%= submit_tag "Search", id: "search-button" %>
+<% end %>
+
+<h4>Tweets Below!</h4>
+
+<ul id="tweet-list"></ul>
+
+<script>
+
+$(document).ready(function() {
+
+  $("#search-button").on("click",function(e) {
+    e.preventDefault();
+
+    var tweetNumber = $("#tweet-number").val();
+    var userName = $("#search-field").val();
+    if (userName == "") {
+      alert("You must put in a twitter handle!")
+    } else {
+      $.ajax({
+          method: "GET",
+          url: "/tweet",
+          data: {tweet_value: userName, tweet_number: tweetNumber},
+          error: function() {alert("error!")},
+          success: function(response) {
+            var json = JSON.parse(response);
+            // var myArray = response.split(", ")
+            // console.log(myArray)
+            for(i = 0; i < json.length; i ++ ){
+              $("#tweet-list").append("<li><span style='font-weight: bold'>" + userName + "</span>: " + json[i] + "</li>");
+            }
+          }
+        })
+    }
+
+  })
+
+
+});
+
+</script>
