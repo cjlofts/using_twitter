@@ -5,6 +5,10 @@
   <%= text_field_tag :search, nil, id: "search-field" %>
   <%= submit_tag "Search", id: "search-button" %>
 <% end %>
+<br>
+<%= form_tag do %>
+<%= submit_tag "Clear Page", id: "clear-button" %>
+<% end %>
 
 <h4>Tweets Below!</h4>
 
@@ -13,6 +17,11 @@
 <script>
 
 $(document).ready(function() {
+
+  $("#clear-button").on("click",function(e) {
+    e.preventDefault();
+    $("#tweet-list").html('');
+  })
 
   $("#search-button").on("click",function(e) {
     e.preventDefault();

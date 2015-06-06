@@ -21,7 +21,7 @@ class TweetsController < ApplicationController
     client.user_timeline(user).take(number).each do |i|
       tweet_array.push(i.text)
     end
-    tweet_array
+    tweet_array.reverse
   end
 
 end
