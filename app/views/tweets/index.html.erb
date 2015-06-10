@@ -1,55 +1,44 @@
-<h4>Tweets</h4>
+<div class="container">
+  <h4>Tweets</h4>
 
-<%= form_tag do %>
-  <%= number_field_tag :search, value = 5,{ id: "tweet-number", min: 1 } %>
-  <%= text_field_tag :search, nil, id: "search-field" %>
-  <%= submit_tag "Search", id: "search-button" %>
-<% end %>
-<br>
-<%= form_tag do %>
-<%= submit_tag "Clear Page", id: "clear-button" %>
-<% end %>
+  <form class="form-inline">
+    <div class="form-group">
+      <%= form_tag do %>
+        <label for="tweet-number">Number Of Tweets:</label>
+        <%= number_field_tag :search, value = 5,{ id: "tweet-number", min: 1, max: 20, class: "form-control" } %>
+        <label for="search-field">Username:</label>
+        <%= text_field_tag :search, nil, id: "search-field", class: "form-control" %>
+        <%= submit_tag "Search", id: "search-button", class: "btn btn-success" %>
+      <% end %>
+      <br>
+    </div>
+  </form>
+  <br>
+  <%= form_tag do %>
+  <%= submit_tag "Clear Page", id: "clear-button", class: "btn btn-danger" %>
+  <% end %>
 
-<h4>Tweets Below!</h4>
+  <h4>Tweets Below!</h4>
 
-<ul id="tweet-list"></ul>
+  <ol id="tweet-list"></ol>
+</div>
 
-<script>
+<!-- div class="container">
+  <h4>Tweets</h4>
 
-$(document).ready(function() {
+  <div class="form-group">
+    <%= form_tag do %>
+      <%= number_field_tag :search, value = 5,{ id: "tweet-number", min: 1, max: 20, class: "form-control" } %>
+      <%= text_field_tag :search, nil, id: "search-field", class: "form-control" %>
+      <%= submit_tag "Search", id: "search-button" %>
+    <% end %>
+    <br>
+    <%= form_tag do %>
+    <%= submit_tag "Clear Page", id: "clear-button" %>
+    <% end %>
+  </div>
 
-  $("#clear-button").on("click",function(e) {
-    e.preventDefault();
-    $("#tweet-list").html('');
-  })
+  <h4>Tweets Below!</h4>
 
-  $("#search-button").on("click",function(e) {
-    e.preventDefault();
-
-    var tweetNumber = $("#tweet-number").val();
-    var userName = $("#search-field").val();
-    if (userName == "") {
-      alert("You must put in a twitter handle!")
-    } else {
-      $.ajax({
-          method: "GET",
-          url: "/tweet",
-          data: {tweet_value: userName, tweet_number: tweetNumber},
-          error: function() {alert("error!")},
-          success: function(response) {
-            var json = JSON.parse(response);
-            // var myArray = response.split(", ")
-            // console.log(myArray)
-            for(i = 0; i < json.length; i ++ ){
-              $("#tweet-list").append("<li><span style='font-weight: bold'>" + userName + "</span>: " + json[i] + "</li>");
-            }
-          }
-        })
-    }
-
-  })
-
-
-});
-
-</script>
+  <ol id="tweet-list"></ol>
+</div> -->

@@ -6,7 +6,7 @@ class TweetsController < ApplicationController
   def display_tweet
     user_name = params[:tweet_value]
     tweet_number = params[:tweet_number].to_i
-    render text: obtain(user_name, tweet_number)
+    render json: obtain(user_name, tweet_number)
   end
 
   def obtain(user, number)
@@ -17,11 +17,24 @@ class TweetsController < ApplicationController
       config.access_token_secret = ENV["MY_ACCESS_SECRET"]
     end
 
-    tweet_array = []
-    client.user_timeline(user).take(number).each do |i|
-      tweet_array.push(i.text)
+    def nice_date(date)
+      without_time = date[0...-15]
+      new_date = without_time[8..9] + "/" + without_time[5..6] + "/" + without_time[2..3]
     end
-    tweet_array.reverse
+    
+    def nice_time(date)
+      date[11...-9]
+    end
+
+    tweet_hash = {}
+    client.user_timeline(user).take(number).each do |i|
+      date = i.created_at.to_s
+      date_part = nice_date(date)
+      time_part = nice_time(date)
+      full_date = date_part + " at " + time_part
+      tweet_hash[full_date] = i.text
+    end
+    tweet_hash
   end
 
 end
